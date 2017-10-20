@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <time.h>
+#include <unistd.h>
 #include <cstdlib> 
 
 using namespace std;
@@ -99,7 +100,7 @@ char Jugador :: obtenerletra(){
 	}
 
 char Jugador :: obtenerletramaquina(){
-    int numero = (0+ rand() % 9);
+    int numero = 1 + rand() % (9 - 0);
     return listaletras[numero];
 }
 
@@ -114,19 +115,44 @@ int main()
     jugadorreal.imprimir_datos();
     jugadormaquina.imprimir_datos();
 	tbl.imprimir_matriz();
-    int numero = ( 1 + rand() % 2);
+    int numero = 1 + rand() % (2 - 0);
+    cout << numero;
+    char letra;
+    char letra2;
     if (numero == 1){
-        char letra = jugadorreal.obtenerletra();
-        char letra1 = jugadormaquina.obtenerletramaquina();
+        int ganador = 1;
+        while(ganador == 1){
+            letra = jugadorreal.obtenerletra();
+            tbl.cambiarSimbolos (letra, 'X');
+            system("clear");
+            tbl.imprimir_matriz();
+            char letra2 = jugadormaquina.obtenerletramaquina();
+            tbl.cambiarSimbolos (letra, 'O');
+            system("clear");
+            tbl.imprimir_matriz();
+
+            ganador = 2;
+        }
+
+    if (numero == 2){
+        ganador = 1;
+        while(ganador == 1){
+            letra2 = jugadormaquina.obtenerletramaquina();
+            tbl.cambiarSimbolos (letra, 'O');
+            system("clear");
+            tbl.imprimir_matriz();
+            char letra = jugadorreal.obtenerletra();
+            tbl.cambiarSimbolos (letra, 'X');
+            system("clear");
+            tbl.imprimir_matriz();
+            
+
+            ganador = 2;
+        }
+        
     }
 
-
-
-    char letra = jugadorreal.obtenerletra();
-    char letra1 = jugadormaquina.obtenerletramaquina();
-	tbl.cambiarSimbolos (letra, 'X');
-    system("clear");
-    tbl.imprimir_matriz();
-
+    
 	return 0;
+}  
 }

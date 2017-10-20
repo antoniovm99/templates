@@ -6,34 +6,42 @@
 using namespace std;
 
 class Tablero{
-protected: 
-	char matriz[3][3];
-    char matrizopciones[3][3];
-	char lista[9] = {'a','b','c','d','e','f','g','h','i'};
-    char  lista2[9]={'-','-','-','-','-','-','-','-','-'};
-	int numero = 0;
+public:
+	char matriz[3][3]={
+								'a','b','c',
+								'd','e','f',
+								'g','h','i'};
+    char matrizopciones[3][3]={
+												'-','-','-',
+												'-','-','-',
+												'-','-','-'};
     string nombre_juego;
 public:
 	Tablero();
 	void imprimir_matriz();
-    void imprimir_nombre_juego();
+  void imprimir_nombre_juego();
+	void cambiarSimbolos (char letra, char simbolo);
 };
 
+void Tablero::cambiarSimbolos (char letra, char simbolo) {
+	for (int i = 0; i < 3; i++)
+	{
+			for (int j = 0; j < 3; j++)
+			{
+					if(matriz[i][j] == letra){
+							matrizopciones[i][j] = simbolo;
+					}
+			}
+}
+}
 
 Tablero::Tablero(){}
 
 void Tablero::imprimir_matriz(){
-            /* 
-            Muetra en pantalla el tableroado, lo que ve 
-            el usuario
-            */
             for (int i=0; i<3; i++){
                 printf("           ");
                 for (int p=0; p<3; p++){
-                	matriz[i][p]=lista[numero];
-                    matrizopciones[i][p] = lista2[numero];
                     printf("| %c (%c) ", matrizopciones[i][p],matriz[i][p]);
-                    numero = numero + 1;
                 }
                 printf("| \n");
                 printf("                \n");
@@ -51,16 +59,19 @@ private:
     string nombre;
     int puntos;
     char letra;
+		Tablero tbl;
+
 public:
-    Jugador(string,int);
+    Jugador(string,int, Tablero&);
     void pedir_nombre();
     void imprimir_datos();
-    void obtenerletra();
+    char obtenerletra();
 };
 
-Jugador :: Jugador(string _nombre,int _puntos){
+Jugador :: Jugador(string _nombre,int _puntos, Tablero &tbl1){
     nombre = _nombre;
     puntos = _puntos;
+		tbl = tbl1;
 }
 
 void Jugador :: pedir_nombre(){
@@ -85,36 +96,27 @@ char *obtenerCasilla(char letra){
 
 */
 
-void Jugador :: obtenerletra(){
-    cout << "Que Casilla Escoge: " << endl;
+char Jugador :: obtenerletra(){
+    cout << "Que Casilla Escogee: " << endl;
     cin >> letra;
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            if(matriz[i][j] == letra){
-                matrizopciones[i][j] == 1;
-            }
-        }
-    }
-}
-
-
+		return letra;
+	}
 
 
 int main()
 {
 	Tablero tbl;
-    Jugador jugadorreal("",0);
-    Jugador jugadormaquina("Maquina",0);
+    Jugador jugadorreal("",0, tbl);
+    Jugador jugadormaquina("Maquina",0, tbl);
     jugadorreal.pedir_nombre();
-    system("clear");
+    //system("clear");
     tbl.imprimir_nombre_juego();
     jugadorreal.imprimir_datos();
     jugadormaquina.imprimir_datos();
-	tbl.imprimir_matriz();
-    jugadorreal.obtenerletra();
-    system("clear");
+		tbl.imprimir_matriz();
+    char letra = jugadorreal.obtenerletra();
+		tbl.cambiarSimbolos (letra, 'X');
+    //system("clear");
     tbl.imprimir_matriz();
 
 	return 0;

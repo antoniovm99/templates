@@ -84,20 +84,8 @@ void Jugador :: imprimir_datos(){
     cout << "\n";
 }
 
-/*
-char *obtenerCasilla(char letra){
-  for (int i = 0; i < 3; i++)
-    for (int j = 0; j < 3; j++)
-      if (matrizopciones[i][j] == letra)
-        return &matriz[i][j];
-
-  return NULL;
-}
-
-*/
-
 char Jugador :: obtenerletra(){
-    cout << "Que Casilla Escogee: " << endl;
+    cout << "Que Casilla Escoge: " << endl;
     cin >> letra;
 		return letra;
 	}
@@ -109,14 +97,14 @@ int main()
     Jugador jugadorreal("",0, tbl);
     Jugador jugadormaquina("Maquina",0, tbl);
     jugadorreal.pedir_nombre();
-    //system("clear");
+    system("clear");
     tbl.imprimir_nombre_juego();
     jugadorreal.imprimir_datos();
     jugadormaquina.imprimir_datos();
 		tbl.imprimir_matriz();
     char letra = jugadorreal.obtenerletra();
 		tbl.cambiarSimbolos (letra, 'X');
-    //system("clear");
+    system("clear");
     tbl.imprimir_matriz();
 
 	return 0;
